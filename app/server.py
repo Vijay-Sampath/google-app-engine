@@ -1,4 +1,4 @@
-from starlette.applications import Starlette
+sfrom starlette.applications import Starlette
 from starlette.responses import HTMLResponse, JSONResponse
 from starlette.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
@@ -9,7 +9,7 @@ from fastai.vision import *
 
 #model_file_url = 'https://www.dropbox.com/s/y4kl2gv1akv7y4i/stage-2.pth?raw=1'
 model_file_url='https://www.dropbox.com/l/scl/AAAAkc4jEVssOz-NDZ0LpIwLlmM771wc80k'
-model_file_name = 'model'
+model_file_name = 'bears'
 classes = ['black', 'grizzly', 'teddys']
 path = Path(__file__).parent
 
@@ -25,7 +25,7 @@ async def download_file(url, dest):
             with open(dest, 'wb') as f: f.write(data)
 
 async def setup_learner():
-    await download_file(model_file_url, path/'models'/f'{model_file_name}.pth')
+    await download_file(model_file_url, path/'models'/f'{model_file_name}.pkl')
     data_bunch = ImageDataBunch.single_from_classes(path, classes,
         ds_tfms=get_transforms(), size=224).normalize(imagenet_stats)
     learn = create_cnn(data_bunch, models.resnet34, pretrained=False)
